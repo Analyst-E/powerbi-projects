@@ -1,5 +1,14 @@
 # Store Sales Dashboard Analysis
 
+## Table of Contents
+
+- [Project Overview](#Project-Overview)
+- [Data Source](#data-source)
+- [Dashboard Pages](#dashboard-pages)
+- [Measures and Calculations](#measures-and-calculations)
+- [Analysis and Recommendations](#analysis-and-recommendations)
+- [Dashboard Demonstration](#dashboard-demonstration)
+
 ## Project Overview
 This project involves the creation of a Power BI dashboard for a retail store with branches across different countries. The dashboard provides insights into sales performance, customer and order analysis, and product analysis.
 
@@ -38,24 +47,22 @@ The data used for this analysis is stored in an Excel file named "store data.xls
 `SUM(OrderBreakdown[Sales])+0`
 
 ### Sales Current Month MTD
-```dax
-VAR LastOrderDate = MAX('ListOfOrders'[Order Date])
+`VAR LastOrderDate = MAX('ListOfOrders'[Order Date])
 VAR CurrentMonthStartDate = EOMONTH(LastOrderDate, -1) + 1
 RETURN CALCULATE([Sales], 
                 'ListOfOrders'[Order Date] >= CurrentMonthStartDate, 
-                'ListOfOrders'[Order Date] <= LastOrderDate)
+                'ListOfOrders'[Order Date] <= LastOrderDate)`
 
 ### Sales Last Month MTD
-```dax
-VAR LastOrderDate = MAX('ListOfOrders'[Order Date])
+`VAR LastOrderDate = MAX('ListOfOrders'[Order Date])
 VAR LastMonthStartDate = EOMONTH(LastOrderDate, -2) + 1
 VAR LastMonthEndDate = EOMONTH(LastOrderDate, -1)
 RETURN CALCULATE([Sales], 
                  'ListOfOrders'[Order Date] >= LastMonthStartDate, 
-                 'ListOfOrders'[Order Date] <= LastMonthEndDate)
+                 'ListOfOrders'[Order Date] <= LastMonthEndDate)`
 
 ### Parameter Table for Sales/Qty Slicer
-```dax
+`
 DATATABLE (
     "Measure", STRING,
     "Measure Order", INTEGER,
@@ -63,17 +70,17 @@ DATATABLE (
         { "Sales", 1 },
         { "Quantity", 2 }
     }
-)
+)`
 
 ### Selected Measure for Sales/Qty Slicer
-```dax
+`
 VAR SelectedMeasure = SELECTEDVALUE('Sales/Qty2'[Measure Order], 1)
 RETURN
     SWITCH (
         SelectedMeasure,
         1, [Sales],
         2, [Quantity]
-    )
+    )`
 
 Quick measures were used to calculate all YOY and MOM percentage changes.
 
@@ -110,7 +117,6 @@ Quick measures were used to calculate all YOY and MOM percentage changes.
 The dashboards provide valuable insights into sales performance, customer behavior, and product profitability. Strategic focus on high-performing regions, categories, and customers, along with cautious discounting, can enhance profitability and growth.
 
 ## Dashboard Demonstration
-
 
 https://github.com/Analyst-E/sales-powerbi-project/assets/115645199/8adae7a8-9bfa-4c31-a445-a25ed8525e80
 
